@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Comment Form</title>
+    <style>
+      /* CSS styles for form design */
+    </style>
+  </head>
+  <body>
+    <form id="comment-form">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required><br>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required><br>
+      <label for="comment">Comment:</label>
+      <textarea id="comment" name="comment" required></textarea><br>
+      <input type="button" value="Submit" onclick="submitComment()">
+    </form>
+    <script>
+      // JavaScript function to handle form submission
+      function submitComment() {
+        // Get form values
+        var name = document.getElementById("name").value;
+        var email = document.getElementById("email").value;
+        var comment = document.getElementById("comment").value;
+
+        // Send form data to server using Fetch API
+        fetch("/submit-comment", {
+          method: "POST",
+          body: JSON.stringify({
+            name: name,
+            email: email,
+            comment: comment
+          }),
+          headers: { "Content-Type": "application/json" }
+        })
+          .then(response => {
+            if (response.status === 200) {
+              alert("Thank you for your comment!");
+            } else {
+              alert("An error occurred. Please try again later.");
+            }
+          })
+          .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred. Please try again later.");
+          });
+      }
+    </script>
+  </body>
+</html>
